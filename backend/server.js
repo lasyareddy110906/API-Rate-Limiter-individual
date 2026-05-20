@@ -9,7 +9,12 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://api-rate-limiter-individual.vercel.app",
+    ],
+    methods: ["GET", "POST"],
+    credentials: true,
   })
 );
 
