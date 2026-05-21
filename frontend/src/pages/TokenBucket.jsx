@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -12,9 +12,7 @@ const TokenBucket = () => {
 
   const handleTest = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:9000/api/token-bucket"
-      );
+      const res = await api.get("/api/token-bucket");
 
       console.log(res.data);
 
@@ -44,9 +42,8 @@ const TokenBucket = () => {
     } catch (error) {
       navigate("/playground", {
         state: {
-          data: error.response.data,
-          status:
-            error.response.status,
+          data: error.response?.data || { error: "Network/CORS Error", message: error.message },
+          status: error.response?.status || 500,
         },
       });
     }

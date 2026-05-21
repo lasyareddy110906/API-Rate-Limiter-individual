@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -12,9 +12,7 @@ const LeakyBucket = () => {
 
   const handleTest = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:9000/api/leaky-bucket"
-      );
+      const res = await api.get("/api/leaky-bucket");
 
       console.log(res.data);
 
@@ -43,9 +41,8 @@ const LeakyBucket = () => {
     } catch (error) {
       navigate("/playground", {
         state: {
-          data: error.response.data,
-          status:
-            error.response.status,
+          data: error.response?.data || { error: "Network/CORS Error", message: error.message },
+          status: error.response?.status || 500,
         },
       });
     }

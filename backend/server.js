@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import "dotenv/config";
 
 const app = express();
 
@@ -7,9 +8,23 @@ const app = express();
    MIDDLEWARE
 ====================================================== */
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.VITE_API_URL,
+ "https://api-rate-limiter-individual.vercel.app"
+
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
@@ -360,7 +375,7 @@ app.get("/api/redis-limiter", (req, res) => {
    SERVER
 ====================================================== */
 
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 
 app.listen(PORT, () => {
   console.log(

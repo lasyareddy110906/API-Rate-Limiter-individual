@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -12,9 +12,7 @@ const FixedWindow = () => {
 
   const handleTest = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:9000/api/fixed-window"
-      );
+      const res = await api.get("/api/fixed-window");
 
       console.log(res.data);
 
@@ -41,9 +39,8 @@ const FixedWindow = () => {
     } catch (error) {
       navigate("/playground", {
         state: {
-          data: error.response.data,
-          status:
-            error.response.status,
+          data: error.response?.data || { error: "Network/CORS Error", message: error.message },
+          status: error.response?.status || 500,
         },
       });
     }
