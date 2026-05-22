@@ -17,7 +17,11 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://api-rate-limiter-individual-h8qy.vercel.app",
+    ],
+    credentials: true,
   })
 );
 
