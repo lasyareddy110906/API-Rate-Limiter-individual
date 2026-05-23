@@ -11,7 +11,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   process.env.VITE_API_URL,
- "https://api-rate-limiter-individual.vercel.app"
+ "https://api-rate-limiter-individual-h8qy.vercel.app/"
 
 ].filter(Boolean);
 
